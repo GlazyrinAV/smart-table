@@ -72,6 +72,7 @@ const rules = {
             }
             return { result: false };
         }
+
         return { continue: true };
     },
 
@@ -202,9 +203,9 @@ const defaultRules = [
     'skipNonExistentSourceFields',
     'skipEmptyTargetValues',
     'failOnEmptySource',
-    'arrayAsRange',
     'stringIncludes',
-    'exactEquality'
+    'exactEquality',
+    'arrayAsRange',
 ];
 
 /**
@@ -232,7 +233,7 @@ function compare(source, target, rulesList) {
     }
 
     // Проверяем каждое свойство в целевом объекте
-    for (const key in target) {
+    for (let key in target) {
         if (Object.prototype.hasOwnProperty.call(target, key)) {
             const targetValue = target[key];
             const sourceValue = source[key];
@@ -242,11 +243,12 @@ function compare(source, target, rulesList) {
             let ruleResult = null;
 
             for (const rule of rulesList) {
+
                 const ruleOutput = rule(key, sourceValue, targetValue, source, target);
 
                 // Проверяем, нужно ли пропустить это свойство
                 if (ruleOutput.skip === true) {
-                    skipProperty = true;
+                        skipProperty = true;
                     break;
                 }
 
