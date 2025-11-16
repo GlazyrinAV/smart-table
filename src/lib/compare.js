@@ -200,12 +200,12 @@ const rules = {
  * как отправную точку, но вы всегда можете настроить свой собственный набор
  */
 const defaultRules = [
+    'arrayAsRange',
     'skipNonExistentSourceFields',
     'skipEmptyTargetValues',
     'failOnEmptySource',
     'stringIncludes',
-    'exactEquality',
-    'arrayAsRange',
+    'exactEquality'
 ];
 
 /**

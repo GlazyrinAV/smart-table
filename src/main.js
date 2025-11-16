@@ -24,11 +24,28 @@ function collectState() {
     const state = processFormData(new FormData(sampleTable.container));
     const rowsPerPage = parseInt(state.rowsPerPage);
     const page = parseInt(state.page ?? 1);
+    let total = [];
+
+    if (state['totalFrom']) {
+        total.push(parseInt(state['totalFrom']));
+    } else {
+        total.push(undefined);
+    }
+    if (state['totalTo']) {
+        total.push(parseInt(state['totalTo']));
+    } else {
+        total.push(undefined);
+    }
+
+    if (total[0] === undefined && total[1] === undefined) {
+        total = undefined;
+    }
 
     return {
         ...state,
         rowsPerPage,
-        page
+        page,
+        total
     };
 }
 
@@ -39,10 +56,14 @@ function collectState() {
 function render(action) {
     let state = collectState(); // состояние полей из таблицы
     let result = [...data]; // копируем для последующего изменения
-    // result = applySearch(result, state, action);
+    result = applySearch(result, state, action);
     result = applyFiltering(result, state, action);
+    console.log(result)
     result = applySorting(result, state, action);
+    console.log(result)
     result = applyPagination(result, state, action);
+    console.log(result)
+
 
     // @todo: использование
     sampleTable.render(result)
